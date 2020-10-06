@@ -14,21 +14,37 @@ class Cards extends React.Component {
 
 	getCardsToDisplay = () => {
 		const { cards, page, searchedCards, searchTerm } = this.state;
-		const nextPage = page + 1;
-		const displayCards = searchTerm
-			? searchedCards.slice(0, nextPage * 20 + 1)
-			: cards.slice(0, nextPage * 20 + 1);
+		
 		this.setState({ loading: true });
-		this.setState({ displayCards, loading: false, page: nextPage })
+		const nextPage = page + 1;
+		const sliceEnd = nextPage * 20;
+		const displayCards = searchTerm
+			? searchedCards.slice(0, sliceEnd)
+			: cards.slice(0, (nextPage, sliceEnd));
+		this.setState({ displayCards, loading: false, page: nextPage });
 	}
 
 	handleSearch = (event) => {
 		const { cards } = this.state;
 		const searchTerm = event.target.value.toLowerCase();
-		const searchedCards = cards.filter((card) =>
-			card.name.toLowerCase().includes(searchTerm)
-		);
-		this.setState({ searchedCards, searchTerm });
+		
+		if (!searchTerm) {
+			this.setState({
+				displayCards: cards.slice(0, 20),
+				page: 1,
+				searchedCards: [],
+				searchTerm: ""
+			});
+		} else {
+			const searchedCards = cards.filter((card) =>
+				card.name.toLowerCase().includes(searchTerm)
+			);
+			this.setState({
+				displayCards: searchedCards.slice(0, 20),
+				searchedCards,
+				searchTerm,
+			});
+		}
 	};
 
 	handleScroll = () => {
@@ -71,7 +87,7 @@ class Cards extends React.Component {
   }
 
   render() {
-    const { displayCards, loading } = this.state;
+    const { displayCards, loading, searchTerm } = this.state;
     return (
 		<main className="Container">
 			<h1>Elder Scrolls</h1>
@@ -92,6 +108,8 @@ class Cards extends React.Component {
 				</div>
 			)}
 			{loading && <div className="Loading">Loading</div>}
+
+			{searchTerm && !displayCards.length && <h1>No search results.</h1>}
 		</main>
     );
   }
