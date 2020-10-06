@@ -5,29 +5,24 @@ import "./Cards.css";
 class Cards extends React.Component {
 	state = {
 		cards: [],
+		displayCards: [],
 		loading: false,
 		page: 1,
 		searchedCards: [],
 		searchTerm: "",
 	};
 
-  getCards = () => {
-    const { cards, page } = this.state;
-    const nextPage = page + 1;
-    this.setState({ loading: true });
-    fetch(
-    	`https://api.elderscrollslegends.io/v1/cards?page=${nextPage}&pageSize=20`
-    )
-		.then((response) => response.json())
-		.then((data) =>
-			this.setState({ cards: cards.concat(data.cards), page: nextPage })
-		)
-		.catch((err) => console.log(err))
-		.finally(() => this.setState({ loading: false }));
-  	}
+	getCardsToDisplay = () => {
+		const { cards, page, searchedCards, searchTerm } = this.state;
+		const nextPage = page + 1;
+		const displayCards = searchTerm
+			? searchedCards.slice(0, nextPage * 20 + 1)
+			: cards.slice(0, nextPage * 20 + 1);
+		this.setState({ loading: true });
+		this.setState({ displayCards, loading: false, page: nextPage })
+	}
 
 	handleSearch = (event) => {
-		// TODO: what am I searching? all results?
 		const { cards } = this.state;
 		const searchTerm = event.target.value.toLowerCase();
 		const searchedCards = cards.filter((card) =>
@@ -52,16 +47,21 @@ class Cards extends React.Component {
 		);
 		const windowBottom = windowHeight + window.pageYOffset;
 		if (windowBottom >= docHeight) {
-			this.getCards();
+			this.getCardsToDisplay();
 		}
 	}
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
 	this.setState({ loading: true });
-    fetch(`https://api.elderscrollslegends.io/v1/cards?page=1&pageSize=20`)
+    fetch(`https://api.elderscrollslegends.io/v1/cards`)
 		.then((response) => response.json())
-		.then((data) => this.setState({ cards: data.cards }))
+		.then((data) =>
+		this.setState({
+			cards: data.cards,
+			displayCards: data.cards.slice(0, 21),
+		})
+		)
 		.catch((err) => console.log(err))
 		.finally(() => this.setState({ loading: false }));
   }
@@ -71,29 +71,28 @@ class Cards extends React.Component {
   }
 
   render() {
-    const { cards, loading, searchedCards, searchTerm } = this.state;
-    const cardsToDisplay = searchTerm ? searchedCards : cards;
+    const { displayCards, loading } = this.state;
     return (
-	<main className="Container">
-		<h1>Elder Scrolls</h1>
+		<main className="Container">
+			<h1>Elder Scrolls</h1>
 
-		<div className="Search-container">
-			<label className="Label" htmlFor="search">
-			Search by name:{" "}
-			</label>
-			<input id="search" name="search" onChange={this.handleSearch} />
-		</div>
-
-		{cards.length && (
-			<div className="Grid-row">
-			{cardsToDisplay.map((card) => {
-				const { id } = card;
-				return <Card key={id} card={card} />;
-			})}
+			<div className="Search-container">
+				<label className="Label" htmlFor="search">
+				Search by name:{" "}
+				</label>
+				<input id="search" name="search" onChange={this.handleSearch} />
 			</div>
-		)}
-		{loading && <h1>Loading...</h1>}
-	</main>
+
+			{displayCards.length && (
+				<div className="Grid-row">
+				{displayCards.map((card) => {
+					const { id } = card;
+					return <Card key={id} card={card} />;
+				})}
+				</div>
+			)}
+			{loading && <div className="Loading">Loading</div>}
+		</main>
     );
   }
 }

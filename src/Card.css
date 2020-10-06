@@ -52,11 +52,11 @@
     height: 650px;
   }
 }
-@media (max-width: 555px) {
+@media (max-width: 525px) {
   .Card {
     flex-basis: 100%;
     height: 700px;
-    width: 325px;
+    width: 300px;
   }
   .Card-image {
     max-width: 200px;

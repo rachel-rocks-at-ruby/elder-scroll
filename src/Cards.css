@@ -1,9 +1,10 @@
 .Container {
-  max-width: 1335px;
-  margin: 25px auto;
+    max-width: 1335px;
+    margin: 25px auto;
 }
 
-h1 {
+h1,
+.Loading {
     color: white;
     font-size: 36px;
 }
@@ -17,7 +18,29 @@ h1 {
 }
 
 .Grid-row {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.Loading:after {
+    color: white;
+    display: inline-block;
+    animation: dotty steps(1, end) 1s infinite;
+    content: "";
+}
+
+@keyframes dotty {
+    0% {
+        content: "";
+    }
+    25% {
+        content: ".";
+    }
+    50% {
+        content: "..";
+    }
+    75% {
+        content: "...";
+    }
 }
