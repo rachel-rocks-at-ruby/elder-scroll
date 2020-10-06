@@ -1,4 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app),
+using [The Elder Scrolls: Legends API](https://docs.elderscrollslegends.io/).
 
 ## Prerequisites
 You’ll need to have Node >= 8.10 and npm >= 5.6 on your machine.
