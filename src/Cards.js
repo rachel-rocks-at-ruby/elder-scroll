@@ -27,6 +27,7 @@ class Cards extends React.Component {
   	}
 
 	handleSearch = (event) => {
+		// TODO: what am I searching? all results?
 		const { cards } = this.state;
 		const searchTerm = event.target.value.toLowerCase();
 		const searchedCards = cards.filter((card) =>
@@ -57,7 +58,7 @@ class Cards extends React.Component {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
-    this.setState({ loading: true });
+	this.setState({ loading: true });
     fetch(`https://api.elderscrollslegends.io/v1/cards?page=1&pageSize=20`)
 		.then((response) => response.json())
 		.then((data) => this.setState({ cards: data.cards }))
