@@ -1,0 +1,63 @@
+.Card {
+  background: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  flex-basis: 20%;
+  height: 700px;
+  width: 400px;
+  margin: 10px;
+  padding: 15px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.Card-image {
+  max-width: 300px;
+  min-width: 90%;
+}
+
+.Card-info {
+  height: 200px;
+  font-size: 18px;
+  margin: 15px auto 0;
+  text-align: left;
+  width: 80%;
+}
+
+.Card-info div {
+    line-height: 20px;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 1333px) {
+  .Card {
+    flex-basis: 33.33%;
+    height: 700px;
+  }
+  .Card-image {
+    max-width: 250px;
+    min-width: 80%;
+  }
+}
+@media (max-width: 1073px) {
+  .Card {
+    flex-basis: 33.33%;
+    height: 675px;
+  }
+}
+@media (max-width: 815px) {
+  .Card {
+    flex-basis: 50%;
+    height: 650px;
+  }
+}
+@media (max-width: 555px) {
+  .Card {
+    flex-basis: 100%;
+    height: 700px;
+    width: 325px;
+  }
+  .Card-image {
+    max-width: 200px;
+    min-width: 75%;
+  }
+}

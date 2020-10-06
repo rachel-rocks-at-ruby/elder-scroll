@@ -1,0 +1,23 @@
+.Container {
+  max-width: 1335px;
+  margin: 25px auto;
+}
+
+h1 {
+    color: white;
+    font-size: 36px;
+}
+
+.Search-container {
+    margin-bottom: 15px;
+}
+
+.Label {
+    color: white;
+}
+
+.Grid-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
