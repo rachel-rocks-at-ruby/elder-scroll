@@ -67,52 +67,52 @@ class Cards extends React.Component {
 		}
 	}
 
-  componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll);
-	this.setState({ loading: true });
-    fetch(`https://api.elderscrollslegends.io/v1/cards`)
-		.then((response) => response.json())
-		.then((data) =>
-		this.setState({
-			cards: data.cards,
-			displayCards: data.cards.slice(0, 21),
-		})
-		)
-		.catch((err) => console.log(err))
-		.finally(() => this.setState({ loading: false }));
-  }
+	componentDidMount() {
+		window.addEventListener("scroll", this.handleScroll);
+		this.setState({ loading: true });
+		fetch(`https://api.elderscrollslegends.io/v1/cards`)
+			.then((response) => response.json())
+			.then((data) =>
+			this.setState({
+				cards: data.cards,
+				displayCards: data.cards.slice(0, 21),
+			})
+			)
+			.catch((err) => console.log(err))
+			.finally(() => this.setState({ loading: false }));
+	}
 
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
-  }
+	componentWillUnmount() {
+		window.removeEventListener("scroll", this.handleScroll);
+	}
 
-  render() {
-    const { displayCards, loading, searchTerm } = this.state;
-    return (
-		<main className="Container">
-			<h1>Elder Scrolls</h1>
+  	render() {
+		const { displayCards, loading, searchTerm } = this.state;
+		return (
+			<main className="Container">
+				<h1>Elder Scrolls</h1>
 
-			<div className="Search-container">
-				<label className="Label" htmlFor="search">
-				Search by name:{" "}
-				</label>
-				<input id="search" name="search" onChange={this.handleSearch} />
-			</div>
-
-			{displayCards.length && (
-				<div className="Grid-row">
-				{displayCards.map((card) => {
-					const { id } = card;
-					return <Card key={id} card={card} />;
-				})}
+				<div className="Search-container">
+					<label className="Label" htmlFor="search">
+					Search by name:{" "}
+					</label>
+					<input id="search" name="search" onChange={this.handleSearch} />
 				</div>
-			)}
-			{loading && <div className="Loading">Loading</div>}
 
-			{searchTerm && !displayCards.length && <h1>No search results.</h1>}
-		</main>
-    );
-  }
+				{displayCards.length && (
+					<div className="Grid-row">
+						{displayCards.map((card) => {
+							const { id } = card;
+							return <Card key={id} card={card} />;
+						})}
+					</div>
+				)}
+				{loading && <div className="Loading">Loading</div>}
+
+				{searchTerm && !displayCards.length && <h1>No search results.</h1>}
+			</main>
+		);
+  	}
 }
 
 export default Cards;
